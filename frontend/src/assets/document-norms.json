@@ -1,0 +1,12 @@
+{
+  "vehicleRegistration": 1,
+  "vehicleInspection": 1,
+  "conformity": 1,
+  "insurancePolicy": 2,
+  "atpFrc": 1,
+  "euro": 2,
+  "thermographPrinter": 1,
+  "thermograph": 1,
+  "alarmPanel": 1,
+  "keyNumber": null
+}

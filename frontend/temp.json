@@ -1,0 +1,87 @@
+{
+    "firstTruckNumber": "TH345",
+    "secondTruckNumber": "AC912",
+    "trailerNumber": "0123456789",
+    "location": {
+        "countryCode": "fr",
+        "postalCode": "73984"
+    },
+    "date": "2023-02-07T12:23:41+01:00",
+    "fuelRefrigerator": {
+        "liters": 253,
+        "motoHours": 123456789,
+        "signalizationWorks": true
+    },
+    "equipment": {
+        "belts": 12345,
+        "cargoShelves": 2,
+        "spareWheels": 2,
+        "chocks": 2,
+        "mountingBrackets": 40,
+        "hooks": 1,
+        "rods": 4,
+        "palettes": 33,
+        "crossbar2Tier": 24,
+        "ladders": 1,
+        "fasteningBoards": 1,
+        "rubberMatsSmall": 10,
+        "rubberMatsLarge": 65
+    },
+    "documents": {
+        "vehicleRegistration": 1,
+        "vehicleInspection": 1,
+        "conformity": 1,
+        "insurancePolicy": 2,
+        "atpFrc": 1,
+        "euro": 2,
+        "thermographPrinter": 1,
+        "thermograph": 1,
+        "alarmPanel": 1,
+        "keyNumber": 5
+    },
+    "tireDamages": {
+        "firstAxis": {
+            "left": {
+                "damage": "N",
+                "manufacturer": "123456789012345"
+            },
+            "right": {
+                "damage": "N",
+                "manufacturer": "Conti"
+            }
+        },
+        "secondAxis": {
+            "left": {
+                "damage": "N",
+                "manufacturer": "Conti"
+            },
+            "right": {
+                "damage": "N",
+                "manufacturer": "Conti"
+            }
+        },
+        "thirdAxis": {
+            "left": {
+                "damage": "N",
+                "manufacturer": "Conti"
+            },
+            "right": {
+                "damage": "N",
+                "manufacturer": "Conti"
+            }
+        }
+    },
+    "truckDamages": {
+        "damages": [
+            {
+                "area": "27K",
+                "damage": "B"
+            },
+            {
+                "area": "12D",
+                "damage": "L"
+            }
+        ],
+        "otherDamage": "оыызхйцчіфвЇLorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus dignissim eget turpis vitae pretium. Praesent tristique fermentum velit, eu pretium felis blandit quis. Proin nec leo egestas, molestie ante vel, finibus nulla. Sed in ipsum venenatis, vestibulum dui ut, imperdiet ligula. Curabitur sit amet ornare elit. In scelerisque egestas nulla, luctus elementum eros aliquet at."
+    }
+}

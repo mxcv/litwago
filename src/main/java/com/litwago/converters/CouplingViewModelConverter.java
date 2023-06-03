@@ -6,16 +6,19 @@ import org.springframework.stereotype.Component;
 
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.List;
 
 @Component
 public class CouplingViewModelConverter implements ViewModelConverter<com.litwago.dto.Coupling, Coupling> {
 
+    private final static String EMPTY_IMAGE = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=";
+
     @Override
     public Coupling toViewModel(com.litwago.dto.Coupling c) {
         return Coupling.builder()
-            .firstTruckNumber(c.getFirstTruckNumber())
-            .secondTruckNumber(c.getSecondTruckNumber())
+            .oldTruckNumber(c.getOldTruckNumber())
+            .newTruckNumber(c.getNewTruckNumber())
             .trailerNumber(c.getTrailerNumber())
             .location(c.getLocation().getCountryCode().toUpperCase() + ", " + c.getLocation().getPostalCode())
             .date(c.getDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")))
@@ -62,6 +65,25 @@ public class CouplingViewModelConverter implements ViewModelConverter<com.litwag
                     WordUtils.wrap(c.getTruckDamages().getOtherDamage(), 110, System.lineSeparator(), true)
                         .split(System.lineSeparator()), 4))
                 .build())
+            .oldDriver(c.getOldDriver() == null
+                ? Driver.builder()
+                    .signature(Base64.getDecoder().decode(EMPTY_IMAGE))
+                    .build()
+                : Driver.builder()
+                    .firstName(c.getOldDriver().getFirstName())
+                    .lastName(c.getOldDriver().getLastName())
+                    .signature(Base64.getDecoder().decode(c.getOldDriver().getSignature()))
+                    .build())
+            .newDriver(c.getNewDriver() == null
+                ? NewDriver.builder()
+                    .signature(Base64.getDecoder().decode(EMPTY_IMAGE))
+                    .build()
+                : NewDriver.builder()
+                    .firstName(c.getNewDriver().getFirstName())
+                    .lastName(c.getNewDriver().getLastName())
+                    .signature(Base64.getDecoder().decode(c.getNewDriver().getSignature()))
+                    .hasSeal(c.getNewDriver().isHasSeal())
+                    .build())
             .build();
     }
 

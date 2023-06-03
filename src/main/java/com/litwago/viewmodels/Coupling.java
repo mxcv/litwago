@@ -7,8 +7,8 @@ import lombok.Data;
 @Builder
 public class Coupling {
 
-    String firstTruckNumber;
-    String secondTruckNumber;
+    String oldTruckNumber;
+    String newTruckNumber;
     String trailerNumber;
     String location;
     String date;
@@ -17,4 +17,6 @@ public class Coupling {
     Documents documents;
     TireDamages tireDamages;
     TruckDamages truckDamages;
+    Driver oldDriver;
+    NewDriver newDriver;
 }

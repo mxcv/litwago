@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/couplings")
+@CrossOrigin
 public class CouplingController {
 
     private final ReportService<com.litwago.viewmodels.Coupling> reportService;

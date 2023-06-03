@@ -8,18 +8,15 @@ import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.OffsetDateTime;
-import java.time.ZonedDateTime;
 
 @Data
 public class Coupling {
 
-    @NotBlank
     @Size(max = 10)
-    String firstTruckNumber;
+    String oldTruckNumber;
 
-    @NotBlank
     @Size(max = 10)
-    String secondTruckNumber;
+    String newTruckNumber;
 
     @NotBlank
     @Size(max = 10)
@@ -50,4 +47,10 @@ public class Coupling {
     @NotNull
     @Valid
     TruckDamages truckDamages;
+
+    @Valid
+    Driver oldDriver;
+
+    @Valid
+    NewDriver newDriver;
 }

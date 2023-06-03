@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("api/geocode")
 @Validated
+@CrossOrigin
 public class GeocodingController {
 
     private final GeocodingService geocodingService;

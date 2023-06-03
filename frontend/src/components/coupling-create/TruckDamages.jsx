@@ -1,10 +1,8 @@
 import { useState, useEffect } from "react"
-import { MenuItem, TextField, TableContainer, Table, TableHead, TableBody, TableRow, TableCell, Paper, Card, Button, Box, IconButton } from "@mui/material"
-import AddIcon from '@mui/icons-material/Add';
+import { Stack, MenuItem, TextField, TableContainer, Table, TableHead, TableBody, TableRow, TableCell, Paper, Card, Button, Box, IconButton } from "@mui/material"
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import { Stack } from "@mui/system";
-import truckSpots from '../../assets/truck-areas.json'
-import damageTypes from '../../assets/damages.ru.json'
+import truckAreas from '../../assets/truck-areas.json'
+import damageTypes from '../../assets/truck-damages.ru.json'
 import truck1 from '../../assets/truck1.png'
 import truck2 from '../../assets/truck2.png'
 
@@ -30,11 +28,13 @@ function TruckDamages({truckDamages, setTruckDamages, tab, setTab}) {
     setTab(tab)
   }, [tab])
 
-  function onDamageAdd() {
-    setDamages(d => [...d, {area: area, damage: damage}])
-    setArea('')
-    setDamage('')
-  }
+  useEffect(() => {
+    if (area && damage) {
+      setDamages(d => [...d, {area: area, damage: damage}])
+      setArea('')
+      setDamage('')
+    }
+  }, [area, damage])
 
   function onDamageDelete(i) {
     setDamages(damages.filter((d, index) => index !== i))
@@ -45,31 +45,6 @@ function TruckDamages({truckDamages, setTruckDamages, tab, setTab}) {
       <Stack direction={{xs: 'column', sm: 'row'}} spacing={1}>
         <Image src={truck1} />
         <Image src={truck2} />
-      </Stack>
-      <Stack direction='row' spacing={1} sx={{alignItems: 'flex-end'}}>
-        <TextField select variant='standard' fullWidth label='Место'
-          value={area}
-          onChange={e => setArea(e.target.value)}>
-            {
-              truckSpots.map(s => (
-                <MenuItem key={s} value={s}>{s}</MenuItem>
-              ))
-            }
-        </TextField>
-        <TextField select variant='standard' fullWidth label='Повреждение'
-          value={damage}
-          onChange={e => setDamage(e.target.value)}>
-            {
-              Object.keys(damageTypes).filter(d => d !== 'N').map(d => (
-                <MenuItem key={d} value={d}>{damageTypes[d]}</MenuItem>
-              ))
-            }
-        </TextField>
-        <Button variant="outlined" color="primary" size="small"
-          onClick={onDamageAdd}
-          disabled={area === '' || damage === '' || damage.length === 60}>
-          <AddIcon fontSize="large" />
-        </Button>
       </Stack>
       {
         damages.length ? (
@@ -104,6 +79,26 @@ function TruckDamages({truckDamages, setTruckDamages, tab, setTab}) {
           </TableContainer>
         ) : null
       }
+      <Stack direction='row' spacing={1} sx={{alignItems: 'flex-end'}}>
+        <TextField select variant='standard' fullWidth label='Место'
+          value={area}
+          onChange={e => setArea(e.target.value)}>
+            {
+              truckAreas.map(s => (
+                <MenuItem key={s} value={s}>{s}</MenuItem>
+              ))
+            }
+        </TextField>
+        <TextField select variant='standard' fullWidth label='Повреждение'
+          value={damage}
+          onChange={e => setDamage(e.target.value)}>
+            {
+              Object.keys(damageTypes).filter(d => d !== 'N').map(d => (
+                <MenuItem key={d} value={d}>{damageTypes[d]}</MenuItem>
+              ))
+            }
+        </TextField>
+      </Stack>
       <TextField multiline variant="standard" label="Другие повреждения"
         helperText={otherDamage.length + ' / 440'}
         onKeyPress={e => e.key === "Enter" && e.preventDefault() }

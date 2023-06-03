@@ -1,13 +1,12 @@
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect } from "react"
 import { Alert, Stack, MenuItem, TextField, Skeleton, IconButton } from "@mui/material"
 import axios from 'axios'
 import RefreshIcon from '@mui/icons-material/Refresh';
 import countries from "../../assets/countries.ru.json"
 
-function General({general, setGeneral, tab, setTab}) {
-  const isMount = useRef(true);
-  const [firstTruckNumber, setFirstTruckNumber] = useState(general?.firstTruckNumber ?? '')
-  const [secondTruckNumber, setSecondTruckNumber] = useState(general?.secondTruckNumber ?? '')
+function General({general, setGeneral, tab, setTab, setIsLoading}) {
+  const [oldTruckNumber, setOldTruckNumber] = useState(general?.oldTruckNumber ?? '')
+  const [newTruckNumber, setNewTruckNumber] = useState(general?.newTruckNumber ?? '')
   const [trailerNumber, setTrailerNumber] = useState(general?.trailerNumber ?? '')
   const [location, setLocation] = useState(general?.location ?? {countryCode: '', postalCode: ''})
   const [autoLocation, setAutoLocation] = useState(general?.autoLocation)
@@ -16,22 +15,22 @@ function General({general, setGeneral, tab, setTab}) {
     if (autoLocation === undefined)
       loadLocation()
   }, [])
+
   useEffect(() => {
-    if (isMount.current === false && autoLocation === undefined)
-      alert("Подождите, пока загружается мастоположение!")
-    else {
-      isMount.current = false
-      setGeneral(({
-        firstTruckNumber: firstTruckNumber,
-        secondTruckNumber: secondTruckNumber,
-        trailerNumber: trailerNumber,
-        location: location,
-        autoLocation: autoLocation
-      }))
-      setTab(tab)
-    }
+    setGeneral(({
+      oldTruckNumber: oldTruckNumber === '' ? null : oldTruckNumber,
+      newTruckNumber: newTruckNumber === '' ? null : newTruckNumber,
+      trailerNumber: trailerNumber,
+      location: location,
+      autoLocation: autoLocation
+    }))
+    setTab(tab)
   }, [tab])
-  
+
+  useEffect(() => {
+    setIsLoading(autoLocation === undefined || oldTruckNumber === '' && newTruckNumber === '')
+  }, [oldTruckNumber, newTruckNumber, autoLocation])
+
   function loadLocation() {
     setLocation({countryCode: '', postalCode: ''})
     setAutoLocation(undefined)
@@ -74,13 +73,13 @@ function General({general, setGeneral, tab, setTab}) {
   return (
     <Stack spacing={2}>
       <TextField variant='standard' fullWidth label='Гос. номер сдающего тягача'
-        inputProps={{required: true, maxLength: 10}}
-        value={firstTruckNumber}
-        onChange={e => setFirstTruckNumber(e.target.value)} />
+        inputProps={{maxLength: 10}}
+        value={oldTruckNumber}
+        onChange={e => setOldTruckNumber(e.target.value)} />
       <TextField variant='standard' fullWidth label='Гос. номер принимающего тягача'
-        inputProps={{required: true, maxLength: 10}}
-        value={secondTruckNumber}
-        onChange={e => setSecondTruckNumber(e.target.value)} />
+        inputProps={{maxLength: 10}}
+        value={newTruckNumber}
+        onChange={e => setNewTruckNumber(e.target.value)} />
       <TextField variant='standard' fullWidth label='Гос. номер полуприцепа'
         inputProps={{required: true, maxLength: 10}}
         value={trailerNumber}

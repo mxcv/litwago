@@ -3,13 +3,17 @@ C:\Users\Max\IdeaProjects\Litwago\src\main\java\com\litwago\dto\Equipment.java
 C:\Users\Max\IdeaProjects\Litwago\src\main\java\com\litwago\viewmodels\TireAxis.java
 C:\Users\Max\IdeaProjects\Litwago\src\main\java\com\litwago\converters\ViewModelConverter.java
 C:\Users\Max\IdeaProjects\Litwago\src\main\java\com\litwago\dto\Coupling.java
+C:\Users\Max\IdeaProjects\Litwago\src\main\java\com\litwago\dto\Driver.java
 C:\Users\Max\IdeaProjects\Litwago\src\main\java\com\litwago\exceptions\ReportException.java
 C:\Users\Max\IdeaProjects\Litwago\src\main\java\com\litwago\viewmodels\Coupling.java
+C:\Users\Max\IdeaProjects\Litwago\src\main\java\com\litwago\viewmodels\NewDriver.java
 C:\Users\Max\IdeaProjects\Litwago\src\main\java\com\litwago\controllers\GeocodingController.java
 C:\Users\Max\IdeaProjects\Litwago\src\main\java\com\litwago\controllers\CouplingController.java
 C:\Users\Max\IdeaProjects\Litwago\src\main\java\com\litwago\utils\CleanupFileSystemResource.java
 C:\Users\Max\IdeaProjects\Litwago\src\main\java\com\litwago\dto\TireDamage.java
+C:\Users\Max\IdeaProjects\Litwago\src\main\java\com\litwago\viewmodels\Driver.java
 C:\Users\Max\IdeaProjects\Litwago\src\main\java\com\litwago\controllers\ForwardingController.java
+C:\Users\Max\IdeaProjects\Litwago\src\main\java\com\litwago\dto\NewDriver.java
 C:\Users\Max\IdeaProjects\Litwago\src\main\java\com\litwago\dto\TireDamages.java
 C:\Users\Max\IdeaProjects\Litwago\src\main\java\com\litwago\services\CouplingReportService.java
 C:\Users\Max\IdeaProjects\Litwago\src\main\java\com\litwago\services\ReportService.java
@@ -22,7 +26,6 @@ C:\Users\Max\IdeaProjects\Litwago\src\main\java\com\litwago\viewmodels\FuelRefri
 C:\Users\Max\IdeaProjects\Litwago\src\main\java\com\litwago\dto\FuelRefrigerator.java
 C:\Users\Max\IdeaProjects\Litwago\src\main\java\com\litwago\viewmodels\TruckDamage.java
 C:\Users\Max\IdeaProjects\Litwago\src\main\java\com\litwago\dto\DamageType.java
-C:\Users\Max\IdeaProjects\Litwago\src\main\java\com\litwago\controllers\TestController.java
 C:\Users\Max\IdeaProjects\Litwago\src\main\java\com\litwago\viewmodels\Documents.java
 C:\Users\Max\IdeaProjects\Litwago\src\main\java\com\litwago\dto\TruckDamage.java
 C:\Users\Max\IdeaProjects\Litwago\src\main\java\com\litwago\exceptions\GeocodingException.java

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import { MenuItem, TextField, TableContainer, Table, TableHead, TableBody, TableRow, TableCell, Paper } from "@mui/material"
 import { Stack } from "@mui/system";
-import damages from '../../assets/damages.ru.json'
+import damages from '../../assets/tire-damages.ru.json'
 
 function Tire({tire, setTire}) {
   return (
@@ -53,7 +53,7 @@ function TireDamages({tireDamages, setTireDamages, tab, setTab}) {
   }, [tab])
 
   function createEmptyTireDamage() {
-    return {left: {damage: '', manufacturer: ''}, right: {damage: '', manufacturer: ''}}
+    return {left: {damage: 'N', manufacturer: ''}, right: {damage: 'N', manufacturer: ''}}
   }
 
   return (

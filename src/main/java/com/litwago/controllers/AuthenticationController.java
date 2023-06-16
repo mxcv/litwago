@@ -1,6 +1,7 @@
 package com.litwago.controllers;
 
 import com.litwago.dto.in.UserLogin;
+import com.litwago.dto.in.UserRefresh;
 import com.litwago.dto.in.UserRegister;
 import com.litwago.services.AuthenticationService;
 import com.litwago.dto.out.UserAuthentication;
@@ -26,7 +27,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/refresh")
-    public UserAuthentication refresh(@RequestParam String refreshToken) {
-        return service.refresh(refreshToken);
+    public UserAuthentication refresh(@RequestBody UserRefresh request) {
+        return service.refresh(request);
     }
 }

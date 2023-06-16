@@ -1,6 +1,7 @@
 package com.litwago.services;
 
 import com.litwago.dto.in.UserLogin;
+import com.litwago.dto.in.UserRefresh;
 import com.litwago.dto.in.UserRegister;
 import com.litwago.exceptions.DuplicateEmailException;
 import com.litwago.models.Role;
@@ -43,9 +44,9 @@ public class AuthenticationService {
         return authenticate(user);
     }
 
-    public UserAuthentication refresh(String refreshToken) {
-        var user = repository.findByEmail(jwtService.extractUsername(refreshToken)).orElseThrow();
-        if (!user.getRefreshToken().equals(refreshToken) || jwtService.isTokenExpired(refreshToken))
+    public UserAuthentication refresh(UserRefresh request) {
+        var user = repository.findByEmail(jwtService.extractUsername(request.getRefreshToken())).orElseThrow();
+        if (!user.getRefreshToken().equals(request.getRefreshToken()) || jwtService.isTokenExpired(request.getRefreshToken()))
             throw new RuntimeException();
         return authenticate(user);
     }

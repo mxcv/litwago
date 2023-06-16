@@ -1,4 +1,4 @@
-package com.litwago.viewmodels;
+package com.litwago.dto.in;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserAuthentication {
+public class UserLogin {
 
-    private String accessToken;
-    private String refreshToken;
+    private String email;
+    private String password;
 }

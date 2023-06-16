@@ -1,9 +1,9 @@
 package com.litwago.controllers;
 
-import com.litwago.dto.UserLogin;
-import com.litwago.dto.UserRegister;
+import com.litwago.dto.in.UserLogin;
+import com.litwago.dto.in.UserRegister;
 import com.litwago.services.AuthenticationService;
-import com.litwago.viewmodels.UserAuthentication;
+import com.litwago.dto.out.UserAuthentication;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

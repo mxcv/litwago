@@ -1,4 +1,4 @@
-package com.litwago.dto;
+package com.litwago.dto.in;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

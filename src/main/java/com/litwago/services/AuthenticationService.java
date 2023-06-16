@@ -1,12 +1,12 @@
 package com.litwago.services;
 
-import com.litwago.dto.UserLogin;
-import com.litwago.dto.UserRegister;
+import com.litwago.dto.in.UserLogin;
+import com.litwago.dto.in.UserRegister;
 import com.litwago.exceptions.DuplicateEmailException;
 import com.litwago.models.Role;
 import com.litwago.models.User;
 import com.litwago.repositories.UserRepository;
-import com.litwago.viewmodels.UserAuthentication;
+import com.litwago.dto.out.UserAuthentication;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -54,6 +54,8 @@ public class AuthenticationService {
         user.setRefreshToken(jwtService.generateRefreshToken(user));
         repository.save(user);
         return UserAuthentication.builder()
+            .email(user.getEmail())
+            .role(user.getRole().name())
             .accessToken(jwtService.generateToken(user))
             .refreshToken(user.getRefreshToken())
             .build();

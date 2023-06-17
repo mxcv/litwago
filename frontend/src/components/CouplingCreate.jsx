@@ -1,7 +1,7 @@
 import { Box, Container, Button, Tabs, Tab, Backdrop, CircularProgress } from "@mui/material"
 import { useState, useRef, useEffect } from "react"
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios'
+import axios from '../axios.jsx'
 import General from "./coupling-create/General"
 import Equipment from "./coupling-create/Equipment"
 import Documents from "./coupling-create/Documents"

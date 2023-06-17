@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 import { Alert, Stack, MenuItem, TextField, Skeleton, IconButton } from "@mui/material"
-import axios from 'axios'
+import axios from '../../axios.jsx'
 import RefreshIcon from '@mui/icons-material/Refresh';
 import countries from "../../assets/countries.ru.json"
 

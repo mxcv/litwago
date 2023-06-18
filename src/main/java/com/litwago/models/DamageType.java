@@ -1,4 +1,4 @@
-package com.litwago.dto;
+package com.litwago.models;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;

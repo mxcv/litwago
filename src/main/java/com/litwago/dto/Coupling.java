@@ -4,13 +4,21 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.OffsetDateTime;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Coupling {
+
+    Integer id;
 
     @Size(max = 10)
     String oldTruckNumber;
@@ -30,27 +38,11 @@ public class Coupling {
     OffsetDateTime date;
 
     @Valid
-    FuelRefrigerator fuelRefrigerator;
-
-    @NotNull
-    @Valid
-    Equipment equipment;
-
-    @NotNull
-    @Valid
-    Documents documents;
-
-    @NotNull
-    @Valid
-    TireDamages tireDamages;
-
-    @NotNull
-    @Valid
-    TruckDamages truckDamages;
+    TrailerChange trailerChange;
 
     @Valid
     Driver oldDriver;
 
     @Valid
-    NewDriver newDriver;
+    Driver newDriver;
 }

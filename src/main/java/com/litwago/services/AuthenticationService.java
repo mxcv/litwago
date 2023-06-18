@@ -3,12 +3,11 @@ package com.litwago.services;
 import com.litwago.dto.in.UserLogin;
 import com.litwago.dto.in.UserRefresh;
 import com.litwago.dto.in.UserRegister;
-import com.litwago.exceptions.DuplicateEmailException;
+import com.litwago.exceptions.BadRequestException;
 import com.litwago.models.Role;
 import com.litwago.models.User;
 import com.litwago.repositories.UserRepository;
 import com.litwago.dto.out.UserAuthentication;
-import io.jsonwebtoken.JwtException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -32,7 +31,7 @@ public class AuthenticationService {
             .role(Role.DRIVER)
             .build();
         if (repository.existsUserByEmail(user.getEmail()))
-            throw new DuplicateEmailException();
+            throw new BadRequestException();
         return authenticate(user);
     }
 
@@ -48,7 +47,7 @@ public class AuthenticationService {
     public UserAuthentication refresh(UserRefresh request) {
         var user = repository.findByEmail(jwtService.extractUsername(request.getRefreshToken())).orElseThrow();
         if (!user.getRefreshToken().equals(request.getRefreshToken()) || jwtService.isTokenExpired(request.getRefreshToken()))
-            throw new JwtException("Refresh token is invalid");
+            throw new BadRequestException();
         return authenticate(user);
     }
 
@@ -56,6 +55,7 @@ public class AuthenticationService {
         user.setRefreshToken(jwtService.generateRefreshToken(user));
         repository.save(user);
         return UserAuthentication.builder()
+            .id(user.getId())
             .email(user.getEmail())
             .role(user.getRole().name())
             .accessToken(jwtService.generateToken(user))

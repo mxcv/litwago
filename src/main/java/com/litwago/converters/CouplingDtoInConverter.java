@@ -1,0 +1,83 @@
+package com.litwago.converters;
+
+import com.litwago.models.*;
+import org.springframework.stereotype.Component;
+
+import java.util.stream.Collectors;
+
+@Component
+public class CouplingDtoInConverter implements Converter<com.litwago.dto.Coupling, Coupling> {
+
+    @Override
+    public Coupling convert(com.litwago.dto.Coupling c) {
+        return Coupling.builder()
+            .oldTruckNumber(c.getOldTruckNumber())
+            .newTruckNumber(c.getNewTruckNumber())
+            .trailerNumber(c.getTrailerNumber())
+            .countryCode(c.getLocation().getCountryCode())
+            .postalCode(c.getLocation().getPostalCode())
+            .date(c.getDate())
+            .trailerChange(c.getTrailerChange() == null ? null : TrailerChange.builder()
+                .fuelRefrigerator(c.getTrailerChange().getFuelRefrigerator() == null ? null : FuelRefrigerator.builder()
+                    .liters(c.getTrailerChange().getFuelRefrigerator().getLiters())
+                    .motoHours(c.getTrailerChange().getFuelRefrigerator().getMotoHours())
+                    .signalizationWorks(c.getTrailerChange().getFuelRefrigerator().isSignalizationWorks())
+                    .build())
+                .equipment(Equipment.builder()
+                    .belts(c.getTrailerChange().getEquipment().getBelts())
+                    .cargoShelves(c.getTrailerChange().getEquipment().getCargoShelves())
+                    .spareWheels(c.getTrailerChange().getEquipment().getSpareWheels())
+                    .chocks(c.getTrailerChange().getEquipment().getChocks())
+                    .mountingBrackets(c.getTrailerChange().getEquipment().getMountingBrackets())
+                    .hooks(c.getTrailerChange().getEquipment().getHooks())
+                    .rods(c.getTrailerChange().getEquipment().getRods())
+                    .palettes(c.getTrailerChange().getEquipment().getPalettes())
+                    .crossbar2Tier(c.getTrailerChange().getEquipment().getCrossbar2Tier())
+                    .ladders(c.getTrailerChange().getEquipment().getLadders())
+                    .fasteningBoards(c.getTrailerChange().getEquipment().getFasteningBoards())
+                    .rubberMatsSmall(c.getTrailerChange().getEquipment().getRubberMatsSmall())
+                    .rubberMatsLarge(c.getTrailerChange().getEquipment().getRubberMatsLarge())
+                    .build())
+                .documents(Documents.builder()
+                    .vehicleRegistration(c.getTrailerChange().getDocuments().getVehicleRegistration())
+                    .vehicleInspection(c.getTrailerChange().getDocuments().getVehicleInspection())
+                    .conformity(c.getTrailerChange().getDocuments().getConformity())
+                    .insurancePolicy(c.getTrailerChange().getDocuments().getInsurancePolicy())
+                    .atpFrc(c.getTrailerChange().getDocuments().getAtpFrc())
+                    .euro(c.getTrailerChange().getDocuments().getEuro())
+                    .thermographPrinter(c.getTrailerChange().getDocuments().getThermographPrinter())
+                    .thermograph(c.getTrailerChange().getDocuments().getThermograph())
+                    .alarmPanel(c.getTrailerChange().getDocuments().getAlarmPanel())
+                    .keyNumber(c.getTrailerChange().getDocuments().getKeyNumber())
+                    .build())
+                .tireDamages(TireDamages.builder()
+                    .firstLeftDamage(c.getTrailerChange().getTireDamages().getFirstAxis().getLeft().getDamage())
+                    .firstLeftManufacturer(c.getTrailerChange().getTireDamages().getFirstAxis().getLeft().getManufacturer())
+                    .firstRightDamage(c.getTrailerChange().getTireDamages().getFirstAxis().getRight().getDamage())
+                    .firstRightManufacturer(c.getTrailerChange().getTireDamages().getFirstAxis().getRight().getManufacturer())
+                    .secondLeftDamage(c.getTrailerChange().getTireDamages().getSecondAxis().getLeft().getDamage())
+                    .secondLeftManufacturer(c.getTrailerChange().getTireDamages().getSecondAxis().getLeft().getManufacturer())
+                    .secondRightDamage(c.getTrailerChange().getTireDamages().getSecondAxis().getRight().getDamage())
+                    .secondRightManufacturer(c.getTrailerChange().getTireDamages().getSecondAxis().getRight().getManufacturer())
+                    .thirdLeftDamage(c.getTrailerChange().getTireDamages().getThirdAxis().getLeft().getDamage())
+                    .thirdLeftManufacturer(c.getTrailerChange().getTireDamages().getThirdAxis().getLeft().getManufacturer())
+                    .thirdRightDamage(c.getTrailerChange().getTireDamages().getThirdAxis().getRight().getDamage())
+                    .thirdRightManufacturer(c.getTrailerChange().getTireDamages().getThirdAxis().getRight().getManufacturer())
+                    .build())
+                .truckDamages(TruckDamages.builder()
+                    .damages(c.getTrailerChange().getTruckDamages().getDamages().stream()
+                        .map(d -> TruckDamage.builder()
+                            .damage(d.getDamage())
+                            .area(d.getArea())
+                            .build())
+                        .collect(Collectors.toSet()))
+                    .otherDamage(c.getTrailerChange().getTruckDamages().getOtherDamage())
+                    .build())
+                .build())
+            .oldDriver(c.getOldDriver() == null ? null : User.builder().id(c.getOldDriver().getId()).build())
+            .newDriver(c.getNewDriver() == null ? null : User.builder().id(c.getNewDriver().getId()).build())
+            .oldDriverSignature(c.getOldDriver() == null ? null : c.getOldDriver().getSignature())
+            .newDriverSignature(c.getNewDriver() == null ? null : c.getNewDriver().getSignature())
+            .build();
+    }
+}

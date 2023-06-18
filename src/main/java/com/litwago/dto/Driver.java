@@ -1,18 +1,19 @@
 package com.litwago.dto;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Driver {
 
-    @NotBlank
-    @Size(max = 30)
+    int id;
     String firstName;
-
-    @NotBlank
-    @Size(max = 30)
     String lastName;
 
     @NotBlank

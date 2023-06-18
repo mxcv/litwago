@@ -1,5 +1,9 @@
-package com.litwago.dto;
+package com.litwago.models;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.AllArgsConstructor;
@@ -11,15 +15,17 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Entity
 public class FuelRefrigerator {
 
-    @PositiveOrZero
-    @Max(999999999)
+    @Id
+    @GeneratedValue
+    Integer id;
+
     int liters;
-
-    @PositiveOrZero
-    @Max(999999999)
     int motoHours;
-
     boolean signalizationWorks;
+
+    @OneToOne(mappedBy = "fuelRefrigerator")
+    TrailerChange trailerChange;
 }

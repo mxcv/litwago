@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UserAuthentication {
 
+    private int id;
     private String email;
     private String role;
     private String accessToken;

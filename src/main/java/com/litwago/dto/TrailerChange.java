@@ -11,13 +11,24 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class TireAxis {
+public class TrailerChange {
+
+    @Valid
+    FuelRefrigerator fuelRefrigerator;
 
     @NotNull
     @Valid
-    TireDamage left;
+    Equipment equipment;
 
     @NotNull
     @Valid
-    TireDamage right;
+    Documents documents;
+
+    @NotNull
+    @Valid
+    TireDamages tireDamages;
+
+    @NotNull
+    @Valid
+    TruckDamages truckDamages;
 }

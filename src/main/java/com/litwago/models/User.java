@@ -22,15 +22,26 @@ public class User implements UserDetails {
 
     @Id
     @GeneratedValue
-    private Integer id;
-    private String firstName;
-    private String lastName;
+    Integer id;
+
+    String firstName;
+
+    String lastName;
 
     @Column(unique = true)
-    private String email;
-    private String password;
-    private String refreshToken;
-    private Role role;
+    String email;
+
+    String password;
+
+    String refreshToken;
+
+    Role role;
+
+    @OneToMany(mappedBy = "oldDriver", cascade = CascadeType.ALL)
+    List<Coupling> givenCouplings;
+
+    @OneToMany(mappedBy = "newDriver", cascade = CascadeType.ALL)
+    List<Coupling> receivedCouplings;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

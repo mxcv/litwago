@@ -34,7 +34,9 @@ function createInterceptors() {
                     error.response.config.headers["Authorization"] = 'Bearer ' + response.data.accessToken
                     return axios(error.response.config)
                 })
-                .catch(() => {
+                .catch(e => {
+                    if (e.response.status !== 401)
+                        return Promise.reject(e);
                     localStorage.removeItem('user')
                     return window.location.href = '/login'
                 })

@@ -1,15 +1,12 @@
-import { Button, Box, Stack } from '@mui/material'
-import { Link } from 'react-router-dom'
+import {Navigate} from 'react-router-dom'
+import DriverIndex from "./DriverIndex.jsx";
 
-function Home() {
-
-  return (
-    <Stack sx={{height: '100vh', justifyContent: 'center'}}>
-      <Box sx={{textAlign: 'center'}}>
-        <Button component={Link} to="/couplings/create" variant='contained'>Оформить перецеп</Button>
-      </Box>
-    </Stack>
-  )
+function Home({user}) {
+    
+    if (user === null)
+        return <Navigate to='/login' />
+    else if (user.role === 'DRIVER')
+        return <DriverIndex />
 }
 
 export default Home

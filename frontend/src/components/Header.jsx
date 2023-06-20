@@ -1,4 +1,4 @@
-import {AppBar, Box, IconButton, Menu, MenuItem, Stack, Toolbar, Typography} from "@mui/material";
+import {AppBar, Box, IconButton, Menu, MenuItem, Stack, Toolbar} from "@mui/material";
 import logo from '../assets/logo.svg';
 import {useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
@@ -14,7 +14,7 @@ function Header({user, setUser}) {
     }
 
     return (
-        <Box sx={{ flexGrow: 1}}>
+        <Box>
             {
                 user !== null && (
                     <AppBar position="static">
@@ -28,9 +28,10 @@ function Header({user, setUser}) {
                                 sx={{ mr: 2 }}>
                                 <img src={logo} alt='logo' width={32} height={32} />
                             </IconButton>
-                            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                            <MenuItem component={Link} to='/' variant="h1">
                                 Litwago
-                            </Typography>
+                            </MenuItem>
+                            <Box sx={{flex: 1}} />
                             <Stack direction={'row'}>
                                 <MenuItem onClick={e => setAnchorEl(e.currentTarget)}>{user.email}</MenuItem>
                                 <Menu

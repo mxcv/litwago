@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom"
-import CouplingCreate from "./components/CouplingCreate"
+import CouplingCreate from "./components/CouplingCreate.jsx"
 import Home from "./components/Home"
 import Login from "./components/Login"
 import Register from "./components/Register"
@@ -19,15 +19,17 @@ function App() {
     }
 
     return (
-      <Box>
+      <Box sx={{minHeight: '100vh', display: 'flex', flexDirection: 'column'}}>
           <BrowserRouter>
-          <Header user={user} setUser={handleSetUser} />
-              <Routes>
-                  <Route path='/' element={<Home />}></Route>
-                  <Route path='/login' element={<Login setUser={handleSetUser} />}></Route>
-                  <Route path='/register' element={<Register setUser={handleSetUser} />}></Route>
-                  <Route path='/couplings/create' element={<CouplingCreate />}></Route>
-              </Routes>
+			  <Header user={user} setUser={handleSetUser} />
+			  <Box component='main' sx={{flex: 1, display: 'flex'}}>
+				  <Routes>
+					  <Route path='/' element={<Home user={user} />}></Route>
+					  <Route path='/login' element={<Login setUser={handleSetUser} />}></Route>
+					  <Route path='/register' element={<Register setUser={handleSetUser} />}></Route>
+					  <Route path='/couplings/create' element={<CouplingCreate />}></Route>
+				  </Routes>
+			  </Box>
           </BrowserRouter>
       </Box>
     )

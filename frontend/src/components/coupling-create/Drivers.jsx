@@ -1,27 +1,44 @@
-import { useEffect } from "react"
+import {useEffect, useState} from "react"
 import { Stack } from "@mui/material"
 import Driver from "./Driver";
+import axios from "../../axios.jsx";
 
-function Drivers({general, oldDriver, setOldDriver, newDriver, setNewDriver, tab, setTab}) {
+function Drivers({oldDriver, setOldDriver, newDriver, setNewDriver, driverType, tab, setTab}) {
+	const [drivers, setDrivers] = useState()
 
-  useEffect(() => {
-    setTab(tab)
-  }, [tab])
+	useEffect(() => {
+		if (tab)
+			setTab(tab)
+	}, [tab])
 
-  return (
-    <Stack spacing={4} direction={{xs: 'column', sm: 'row'}}>
-      {
-        general.oldTruckNumber ? (
-          <Driver driver={oldDriver} setDriver={setOldDriver} tab={tab} />
-        ) : null
-      }
-      {
-        general.newTruckNumber ? (
-          <Driver driver={newDriver} setDriver={setNewDriver} tab={tab} newDriver />
-        ) : null
-      }
-    </Stack>
-  )
+	useEffect(() => {
+		axios.get('/drivers')
+			.then(response => {
+				setDrivers(response.data)
+			})
+	}, [])
+
+	return (
+		<Stack spacing={4} direction={{xs: 'column', sm: 'row'}}>
+			{
+				driverType !== 2 &&
+				<Driver driver={oldDriver}
+						setDriver={setOldDriver}
+						drivers={drivers}
+						selectedDriver={driverType === 2 ? null : JSON.parse(localStorage.getItem('user'))}
+						tab={tab} />
+			}
+			{
+				driverType !== 1 &&
+				<Driver driver={newDriver}
+						setDriver={setNewDriver}
+						drivers={drivers}
+						selectedDriver={driverType === 2 ? JSON.parse(localStorage.getItem('user')) : null}
+						newDriver
+						tab={tab} />
+			}
+		</Stack>
+	)
 }
 
 export default Drivers

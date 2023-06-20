@@ -17,6 +17,7 @@ public class CouplingDtoInConverter implements Converter<com.litwago.dto.Couplin
             .countryCode(c.getLocation().getCountryCode())
             .postalCode(c.getLocation().getPostalCode())
             .date(c.getDate())
+            .hasSeal(c.isHasSeal())
             .trailerChange(c.getTrailerChange() == null ? null : TrailerChange.builder()
                 .fuelRefrigerator(c.getTrailerChange().getFuelRefrigerator() == null ? null : FuelRefrigerator.builder()
                     .liters(c.getTrailerChange().getFuelRefrigerator().getLiters())

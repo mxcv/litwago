@@ -21,7 +21,7 @@ public class CouplingService {
     public void createCoupling(Coupling coupling) {
         int userId = ((User)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
         Integer oldDriverId = coupling.getOldDriver() == null ? null : coupling.getOldDriver().getId();
-        Integer newDriverId = coupling.getOldDriver() == null ? null : coupling.getNewDriver().getId();
+        Integer newDriverId = coupling.getNewDriver() == null ? null : coupling.getNewDriver().getId();
         if (!Objects.equals(oldDriverId, userId) && !Objects.equals(newDriverId, userId)
             || Objects.equals(oldDriverId, newDriverId)
             || Objects.equals(newDriverId, userId) && oldDriverId != null)
@@ -42,7 +42,9 @@ public class CouplingService {
     public Coupling getFullCoupling(int id) {
         int userId = ((User)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
         Coupling coupling = repository.findById(id).orElseThrow(NotFoundException::new);
-        if (coupling.getOldDriver().getId() != userId && coupling.getNewDriver().getId() != userId)
+        Integer oldDriverId = coupling.getOldDriver() == null ? null : coupling.getOldDriver().getId();
+        Integer newDriverId = coupling.getNewDriver() == null ? null : coupling.getNewDriver().getId();
+        if (!Objects.equals(oldDriverId, userId) && !Objects.equals(newDriverId, userId))
             throw new NotFoundException();
         if (coupling.getTrailerChange() == null)
             coupling.setTrailerChange(repository

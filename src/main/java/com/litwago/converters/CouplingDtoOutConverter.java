@@ -20,6 +20,7 @@ public class CouplingDtoOutConverter implements Converter<com.litwago.models.Cou
                 .postalCode(c.getPostalCode())
                 .build())
             .date(c.getDate())
+            .hasSeal(c.isHasSeal())
             .trailerChange(c.getTrailerChange() == null ? null : TrailerChange.builder()
                 .fuelRefrigerator(c.getTrailerChange().getFuelRefrigerator() == null ? null : FuelRefrigerator.builder()
                     .liters(c.getTrailerChange().getFuelRefrigerator().getLiters())
@@ -95,12 +96,14 @@ public class CouplingDtoOutConverter implements Converter<com.litwago.models.Cou
                     .otherDamage(c.getTrailerChange().getTruckDamages().getOtherDamage())
                     .build())
                 .build())
-//                .oldDriver(c.getOldDriver() == null ? null : Driver.builder()
-//                    .id(c.getOldDriver().getId())
-//                    .signature(c.getOldDriverSignature()).build())
-//                .newDriver(c.getNewDriver() == null ? null : Driver.builder()
-//                    .id(c.getNewDriver().getId())
-//                    .signature(c.getNewDriverSignature()).build())
+                .oldDriver(c.getOldDriver() == null ? null : Driver.builder()
+                    .id(c.getOldDriver().getId())
+//                    .signature(c.getOldDriverSignature())
+                    .build())
+                .newDriver(c.getNewDriver() == null ? null : Driver.builder()
+                    .id(c.getNewDriver().getId())
+//                    .signature(c.getNewDriverSignature())
+                    .build())
             .build();
     }
 }

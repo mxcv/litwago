@@ -29,6 +29,10 @@ public class CouplingService {
         repository.save(coupling);
     }
 
+    public List<Coupling> getByTrailerNumber(String trailerNumber) {
+        return repository.findByTrailerNumber(trailerNumber);
+    }
+
     public Coupling getLastFullCoupling(String trailerNumber) {
         return repository.findTopByTrailerNumberAndTrailerChangeNotNullOrderByDateDesc(trailerNumber)
             .orElseThrow(NotFoundException::new);

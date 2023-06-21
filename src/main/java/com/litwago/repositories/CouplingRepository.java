@@ -12,6 +12,7 @@ import java.util.Optional;
 public interface CouplingRepository extends JpaRepository<Coupling, Integer> {
 
     List<Coupling> findByTrailerNumberOrderByDateDesc(String trailerNumber);
+    List<Coupling> findByTrailerNumberAndTrailerChangeNullOrderByDateDesc(String trailerNumber);
     List<Coupling> findByOldDriverIdOrNewDriverIdOrderByDateDesc(Integer oldDriverId, Integer newDriverId);
     Optional<Coupling> findTopByTrailerNumberAndTrailerChangeNotNullOrderByDateDesc(String trailerNumber);
     Optional<Coupling> findTopByTrailerNumberAndTrailerChangeNotNullAndDateBeforeOrderByDateDesc(String trailerNumber, OffsetDateTime date);

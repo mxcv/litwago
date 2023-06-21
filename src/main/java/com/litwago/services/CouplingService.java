@@ -3,6 +3,7 @@ package com.litwago.services;
 import com.litwago.exceptions.BadRequestException;
 import com.litwago.exceptions.NotFoundException;
 import com.litwago.models.Coupling;
+import com.litwago.models.Role;
 import com.litwago.models.User;
 import com.litwago.repositories.CouplingRepository;
 import lombok.RequiredArgsConstructor;
@@ -29,8 +30,10 @@ public class CouplingService {
         repository.save(coupling);
     }
 
-    public List<Coupling> getByTrailerNumber(String trailerNumber) {
-        return repository.findByTrailerNumberOrderByDateDesc(trailerNumber);
+    public List<Coupling> getByTrailerNumber(String trailerNumber, boolean withoutChange) {
+        return withoutChange
+            ? repository.findByTrailerNumberAndTrailerChangeNullOrderByDateDesc(trailerNumber)
+            : repository.findByTrailerNumberOrderByDateDesc(trailerNumber);
     }
 
     public Coupling getLastFullCoupling(String trailerNumber) {
@@ -44,11 +47,13 @@ public class CouplingService {
     }
 
     public Coupling getFullCoupling(int id) {
-        int userId = ((User)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
+        User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Coupling coupling = repository.findById(id).orElseThrow(NotFoundException::new);
         Integer oldDriverId = coupling.getOldDriver() == null ? null : coupling.getOldDriver().getId();
         Integer newDriverId = coupling.getNewDriver() == null ? null : coupling.getNewDriver().getId();
-        if (!Objects.equals(oldDriverId, userId) && !Objects.equals(newDriverId, userId))
+        if (user.getRole() != Role.MECHANIC
+            && !Objects.equals(oldDriverId, user.getId())
+            && !Objects.equals(newDriverId, user.getId()))
             throw new NotFoundException();
         if (coupling.getTrailerChange() == null)
             coupling.setTrailerChange(repository

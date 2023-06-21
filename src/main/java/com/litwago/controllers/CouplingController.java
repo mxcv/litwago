@@ -53,8 +53,8 @@ public class CouplingController {
     }
 
     @GetMapping
-    public List<Coupling> getByTrailerNumber(@RequestParam String trailerNumber) {
-        return couplingService.getByTrailerNumber(trailerNumber)
+    public List<Coupling> getByTrailerNumber(@RequestParam String trailerNumber, @RequestParam boolean withoutChange) {
+        return couplingService.getByTrailerNumber(trailerNumber, withoutChange)
             .stream()
             .map(modelToDtoConverter::convert)
             .collect(Collectors.toList());

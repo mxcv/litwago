@@ -19,6 +19,7 @@ import axios from "../axios.jsx";
 function DriverIndex() {
     const [couplings, setCouplings] = useState()
     const [isLoading, setIsLoading] = useState(false)
+    let userId = JSON.parse(localStorage.getItem('user')).id
 
     useEffect(() => {
         axios.get('/couplings/my')
@@ -70,7 +71,8 @@ function DriverIndex() {
                     <TableBody>
                         {
                             couplings && couplings.map(c => (
-                                <TableRow key={c.id}>
+                                <TableRow key={c.id}
+                                          sx={{backgroundColor: c.newDriver?.id === userId ? '#ffffb0' : 'inherit'}}>
                                     <TableCell>{c.trailerNumber}</TableCell>
                                     <TableCell>{new Date(c.date).toLocaleDateString()}</TableCell>
                                     <TableCell>

@@ -16,10 +16,11 @@ function CouplingShortCreate({trailerNumber, driverType}) {
     const [oldDriver, setOldDriver] = useState()
     const [newDriver, setNewDriver] = useState()
     const [isLoading, setIsLoading] = useState(false)
-    const [tab, setTab] = useState(null)
+    const [hasToSaveDriver, setHasToSaveDriver] = useState(null)
 
     function finish() {
         let c = collectCoupling()
+        console.log(c)
         setIsLoading(true)
         axios.post('/couplings', c)
             .then(() => navigate('/'))
@@ -63,7 +64,7 @@ function CouplingShortCreate({trailerNumber, driverType}) {
         <Container sx={{py: 2, display: 'flex', flexDirection: 'column'}}
                    component="form"
                    maxWidth='md'
-                   onSubmit={e => {e.preventDefault(); setTab({})}}>
+                   onSubmit={e => {e.preventDefault(); setHasToSaveDriver({})}}>
             <Stack gap={2} flex={1}>
                 <TextField variant='standard' fullWidth disabled label='Гос. номер полуприцепа'
                            inputProps={{required: true, maxLength: 10}}
@@ -97,7 +98,7 @@ function CouplingShortCreate({trailerNumber, driverType}) {
                          newDriver={newDriver}
                          setNewDriver={setNewDriver}
                          driverType={driverType}
-                         tab={tab}
+                         tab={hasToSaveDriver}
                          setTab={finish} />
             </Stack>
             <Button type='submit' sx={{mt: 4}} variant='contained' disabled={isLoading} color='success'>Завершить</Button>

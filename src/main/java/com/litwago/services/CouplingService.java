@@ -30,7 +30,7 @@ public class CouplingService {
     }
 
     public List<Coupling> getByTrailerNumber(String trailerNumber) {
-        return repository.findByTrailerNumberOrderByDesc(trailerNumber);
+        return repository.findByTrailerNumberOrderByDateDesc(trailerNumber);
     }
 
     public Coupling getLastFullCoupling(String trailerNumber) {
@@ -40,7 +40,7 @@ public class CouplingService {
 
     public List<Coupling> getDriverCouplings() {
         int userId = ((User)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
-        return repository.findByOldDriverIdOrNewDriverIdOrderByDesc(userId, userId);
+        return repository.findByOldDriverIdOrNewDriverIdOrderByDateDesc(userId, userId);
     }
 
     public Coupling getFullCoupling(int id) {

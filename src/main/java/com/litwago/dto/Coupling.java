@@ -14,9 +14,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.time.OffsetDateTime;
 
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class Coupling {
 
     Integer id;

@@ -5,12 +5,12 @@ import lombok.*;
 
 import java.util.Set;
 
+@Entity
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-@Entity
 public class TruckDamages {
 
     @Id

@@ -8,11 +8,11 @@ import lombok.NoArgsConstructor;
 
 import java.time.OffsetDateTime;
 
+@Entity
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-@Entity
 public class Coupling {
 
     @Id

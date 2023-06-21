@@ -5,15 +5,15 @@ import com.litwago.exceptions.NotFoundException;
 import com.litwago.models.Coupling;
 import com.litwago.models.User;
 import com.litwago.repositories.CouplingRepository;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
 
-@AllArgsConstructor
 @Service
+@RequiredArgsConstructor
 public class CouplingService {
 
     private final CouplingRepository repository;

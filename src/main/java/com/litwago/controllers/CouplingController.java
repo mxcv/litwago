@@ -6,7 +6,7 @@ import com.litwago.services.CouplingService;
 import com.litwago.services.ReportService;
 import com.litwago.utils.CleanupFileSystemResource;
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@AllArgsConstructor
 @RestController
 @RequestMapping("api/couplings")
+@RequiredArgsConstructor
 public class CouplingController {
 
     private final ReportService<com.litwago.viewmodels.Coupling> reportService;

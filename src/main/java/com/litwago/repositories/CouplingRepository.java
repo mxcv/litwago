@@ -11,8 +11,8 @@ import java.util.Optional;
 @Transactional
 public interface CouplingRepository extends JpaRepository<Coupling, Integer> {
 
-    List<Coupling> findByTrailerNumber(String trailerNumber);
-    List<Coupling> findByOldDriverIdOrNewDriverId(Integer oldDriverId, Integer newDriverId);
+    List<Coupling> findByTrailerNumberOrderByDesc(String trailerNumber);
+    List<Coupling> findByOldDriverIdOrNewDriverIdOrderByDesc(Integer oldDriverId, Integer newDriverId);
     Optional<Coupling> findTopByTrailerNumberAndTrailerChangeNotNullOrderByDateDesc(String trailerNumber);
     Optional<Coupling> findTopByTrailerNumberAndTrailerChangeNotNullAndDateBeforeOrderByDateDesc(String trailerNumber, OffsetDateTime date);
 }

@@ -5,7 +5,7 @@ import {useEffect, useState} from "react";
 import axios from "../axios.jsx";
 
 function DriverIndex({setIsLoading, setError}) {
-    const pageSize = 5
+    const pageSize = 10
     const [page, setPage] = useState(1)
     const [pageCount, setPageCount] = useState(0)
     const [couplings, setCouplings] = useState()

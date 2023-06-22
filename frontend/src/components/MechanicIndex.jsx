@@ -18,7 +18,7 @@ import axios from "../axios.jsx";
 import DescriptionIcon from "@mui/icons-material/Description.js";
 
 function MechanicIndex({setIsLoading, setError}) {
-  const pageSize = 2
+  const pageSize = 10
   const [page, setPage] = useState(0)
   const [pageCount, setPageCount] = useState(0)
   const [trailerNumber, setTrailerNumber] = useState('')

@@ -13,12 +13,11 @@ import axios from "../axios.jsx";
 import {useState} from "react";
 import {Alert, Snackbar} from "@mui/material";
 
-function Login({setUser}) {
+function Login({setUser, setIsLoading}) {
     const navigate = useNavigate();
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [error, setError] = useState(false)
-    const [isLoading, setIsLoading] = useState(false)
 
     const handleSubmit = (event) => {
         event.preventDefault()
@@ -62,7 +61,7 @@ function Login({setUser}) {
                         error={error}
                         value={password}
                         onChange={e => setPassword(e.target.value)} />
-                    <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} disabled={isLoading}>Войти</Button>
+                    <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>Войти</Button>
                     <Grid container justifyContent="flex-end">
                         <Grid item>
                             <Link component={RouterLink} to="/register" variant="body2">

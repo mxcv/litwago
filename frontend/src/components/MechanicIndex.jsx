@@ -1,7 +1,7 @@
 import {
-  Backdrop,
   Box,
-  Button, Checkbox, CircularProgress,
+  Button,
+  Checkbox,
   Container, FormControlLabel, FormGroup,
   IconButton, Pagination,
   Paper,
@@ -17,7 +17,7 @@ import {useEffect, useState} from "react";
 import axios from "../axios.jsx";
 import DescriptionIcon from "@mui/icons-material/Description.js";
 
-function MechanicIndex() {
+function MechanicIndex({setIsLoading}) {
   const pageSize = 2
   const [page, setPage] = useState(0)
   const [pageCount, setPageCount] = useState(0)
@@ -25,7 +25,6 @@ function MechanicIndex() {
   const [withoutChange, setWithoutChange] = useState(false)
   const [couplings, setCouplings] = useState()
   const [couplingCount, setCouplingCount] = useState()
-  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => page ? loadCouplings(page) : undefined, [page])
 
@@ -78,7 +77,7 @@ function MechanicIndex() {
                 value={trailerNumber}
                 onChange={e => setTrailerNumber(e.target.value)} />
             <Box sx={{display: 'flex', alignItems: 'center'}}>
-              <Button type="submit" sx={{ml: 2}} variant="contained" disabled={isLoading}>Найти</Button>
+              <Button type="submit" sx={{ml: 2}} variant="contained">Найти</Button>
             </Box>
           </Box>
           <FormGroup>
@@ -138,9 +137,6 @@ function MechanicIndex() {
                 </Box>
             )
         }
-        <Backdrop open={isLoading} sx={{color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1}}>
-          <CircularProgress color="inherit" />
-        </Backdrop>
       </Container>
   )
 }

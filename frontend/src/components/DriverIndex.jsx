@@ -1,22 +1,22 @@
-import {Backdrop, Box, Button, CircularProgress, Container, IconButton, Pagination, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography} from "@mui/material"
+import {Box, Button, Container, IconButton, Pagination, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography} from "@mui/material"
 import DescriptionIcon from '@mui/icons-material/Description';
 import {Link} from "react-router-dom";
 import {useEffect, useState} from "react";
 import axios from "../axios.jsx";
 
-function DriverIndex() {
+function DriverIndex({setIsLoading}) {
     const pageSize = 5
     const [page, setPage] = useState(1)
     const [pageCount, setPageCount] = useState(0)
     const [couplings, setCouplings] = useState()
     const [couplingCount, setCouplingCount] = useState()
-    const [isLoading, setIsLoading] = useState(false)
     let userId = JSON.parse(localStorage.getItem('user')).id
 
     useEffect(() => loadCouplings(page), [page])
 
     function loadCouplings(page) {
         window.scrollTo(0, 0)
+        setIsLoading(true)
         axios.get('/couplings/my', {
                 params: {
                     page: page - 1,
@@ -28,6 +28,7 @@ function DriverIndex() {
                 setPageCount(Math.ceil(r.data.total / pageSize))
                 setCouplings(r.data.list)
             })
+            .finally(() => setIsLoading(false))
     }
 
     function downloadFile(data, filename) {
@@ -101,9 +102,6 @@ function DriverIndex() {
                     </Box>
                 )
             }
-            <Backdrop open={isLoading} sx={{color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1}}>
-                <CircularProgress color="inherit" />
-            </Backdrop>
         </Container>
     )
 }

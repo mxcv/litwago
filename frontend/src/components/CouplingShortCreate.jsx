@@ -6,7 +6,7 @@ import Location from "./coupling-create/Location.jsx";
 import Drivers from "./coupling-create/Drivers.jsx";
 import axios from "../axios.jsx";
 
-function CouplingShortCreate({trailerNumber, driverType}) {
+function CouplingShortCreate({trailerNumber, driverType, setIsLoading}) {
     const navigate = useNavigate();
     const [oldTruckNumber, setOldTruckNumber] = useState('')
     const [newTruckNumber, setNewTruckNumber] = useState('')
@@ -15,14 +15,12 @@ function CouplingShortCreate({trailerNumber, driverType}) {
     const [autoLocation, setAutoLocation] = useState()
     const [oldDriver, setOldDriver] = useState()
     const [newDriver, setNewDriver] = useState()
-    const [isLoading, setIsLoading] = useState(false)
     const [hasToSaveDriver, setHasToSaveDriver] = useState(null)
+    const [isInnerLoading, setIsInnerLoading] = useState(false)
 
     function finish() {
-        let c = collectCoupling()
-        console.log(c)
         setIsLoading(true)
-        axios.post('/couplings', c)
+        axios.post('/couplings', collectCoupling())
             .then(() => navigate('/'))
             .catch(() => alert('Возникла ошибка при создании документа!'))
             .finally(() => setIsLoading(false))
@@ -92,7 +90,7 @@ function CouplingShortCreate({trailerNumber, driverType}) {
                           setLocation={setLocation}
                           autoLocation={autoLocation}
                           setAutoLocation={setAutoLocation}
-                          setIsLoading={setIsLoading} />
+                          setIsLoading={setIsInnerLoading} />
                 <Drivers oldDriver={oldDriver}
                          setOldDriver={setOldDriver}
                          newDriver={newDriver}
@@ -101,7 +99,7 @@ function CouplingShortCreate({trailerNumber, driverType}) {
                          tab={hasToSaveDriver}
                          setTab={finish} />
             </Stack>
-            <Button type='submit' sx={{mt: 4}} variant='contained' disabled={isLoading} color='success'>Завершить</Button>
+            <Button type='submit' sx={{mt: 4}} variant='contained' color='success' disabled={isInnerLoading}>Завершить</Button>
         </Container>
     )
 }

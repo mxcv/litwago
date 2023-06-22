@@ -13,14 +13,13 @@ import {useState} from "react";
 import axios from "../axios.jsx";
 import {Alert, Snackbar} from "@mui/material";
 
-function Register({setUser}) {
+function Register({setUser, setIsLoading}) {
     const navigate = useNavigate();
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [error, setError] = useState(false)
-    const [isLoading, setIsLoading] = useState(false)
 
     const handleSubmit = (event) => {
         event.preventDefault()
@@ -89,7 +88,7 @@ function Register({setUser}) {
                                 onChange={e => setPassword(e.target.value)} />
                         </Grid>
                     </Grid>
-                    <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} disabled={isLoading}>
+                    <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
                         Зарегистрироваться
                     </Button>
                     <Grid container justifyContent="flex-end">

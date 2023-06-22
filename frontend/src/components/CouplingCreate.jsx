@@ -5,7 +5,7 @@ import DriverTypeRequest from "./DriverTypeRequest.jsx";
 import CouplingFullCreate from "./CouplingFullCreate.jsx";
 import CouplingShortCreate from "./CouplingShortCreate.jsx";
 
-function CouplingCreate() {
+function CouplingCreate({setIsLoading}) {
     const [index, setIndex] = useState(0)
     const [lastCoupling, setLastCoupling] = useState()
     const [creationType, setCreationType] = useState()
@@ -19,11 +19,12 @@ function CouplingCreate() {
         return <DriverTypeRequest setDriverType={t => {setIndex(3); setDriverType(t)}} />
     else if (index === 3) {
         if (creationType === 0)
-            return <CouplingFullCreate lastCoupling={lastCoupling} driverType={driverType} />
+            return <CouplingFullCreate lastCoupling={lastCoupling} driverType={driverType} setIsLoading={setIsLoading} />
         else if (creationType === 1)
             return <CouplingShortCreate
                 trailerNumber={typeof lastCoupling === 'string' ? lastCoupling : lastCoupling.trailerNumber}
-                driverType={driverType} />
+                driverType={driverType}
+                setIsLoading={setIsLoading}/>
     }
 }
 

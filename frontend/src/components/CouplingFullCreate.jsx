@@ -15,7 +15,7 @@ function TabPanel({value, index, children}) {
         return (children);
 }
 
-function CouplingFullCreate({lastCoupling, driverType}) {
+function CouplingFullCreate({lastCoupling, driverType, setIsLoading}) {
     const tabCount = 7
     const navigate = useNavigate();
     const isMount = useRef(true);
@@ -23,7 +23,6 @@ function CouplingFullCreate({lastCoupling, driverType}) {
     const [tab, setTab] = useState(0)
     const [tab1, setTab1] = useState({value: 0})
     const [tab2, setTab2] = useState({value: 0})
-    const [isLoading, setIsLoading] = useState(false)
     const [isInnerLoading, setIsInnerLoading] = useState(false)
 
     const [general, setGeneral] = useState({trailerNumber: hasLastCoupling() ? lastCoupling.trailerNumber : lastCoupling})
@@ -153,9 +152,6 @@ function CouplingFullCreate({lastCoupling, driverType}) {
                     )
                 }
             </Box>
-            <Backdrop open={isLoading} sx={{color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1}}>
-                <CircularProgress color="inherit" />
-            </Backdrop>
         </Container>
     )
 }

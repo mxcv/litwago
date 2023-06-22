@@ -17,7 +17,7 @@ import {useEffect, useState} from "react";
 import axios from "../axios.jsx";
 import DescriptionIcon from "@mui/icons-material/Description.js";
 
-function MechanicIndex({setIsLoading}) {
+function MechanicIndex({setIsLoading, setError}) {
   const pageSize = 2
   const [page, setPage] = useState(0)
   const [pageCount, setPageCount] = useState(0)
@@ -44,6 +44,7 @@ function MechanicIndex({setIsLoading}) {
         setPageCount(Math.ceil(r.data.total / pageSize))
         setCouplings(r.data.list)
       })
+      .catch(() => setError('Не удалось загрузить перецепы'))
       .finally(() => setIsLoading(false))
   }
 
@@ -60,7 +61,7 @@ function MechanicIndex({setIsLoading}) {
           document.body.removeChild(link);
           URL.revokeObjectURL(href);
         })
-        .catch(() => alert('Возникла ошибка при создании документа!'))
+        .catch(() => setError('Не удалось создать документ'))
         .finally(() => setIsLoading(false))
   }
 

@@ -1,12 +1,12 @@
 import * as React from 'react';
+import {Button, Checkbox, Container, FormControlLabel, FormGroup, Stack, TextField} from "@mui/material";
 import {useNavigate} from "react-router-dom";
 import {useState} from "react";
-import {Button, Checkbox, Container, FormControlLabel, FormGroup, Stack, TextField} from "@mui/material";
-import Location from "./coupling-create/Location.jsx";
-import Drivers from "./coupling-create/Drivers.jsx";
-import axios from "../axios.jsx";
+import Location from "./Location.jsx";
+import Drivers from "./Drivers.jsx";
+import axios from "../../axios.jsx";
 
-function CouplingShortCreate({trailerNumber, driverType, setIsLoading}) {
+function CouplingShortCreate({trailerNumber, driverType, setIsLoading, setError}) {
     const navigate = useNavigate();
     const [oldTruckNumber, setOldTruckNumber] = useState('')
     const [newTruckNumber, setNewTruckNumber] = useState('')
@@ -22,7 +22,7 @@ function CouplingShortCreate({trailerNumber, driverType, setIsLoading}) {
         setIsLoading(true)
         axios.post('/couplings', collectCoupling())
             .then(() => navigate('/'))
-            .catch(() => alert('Возникла ошибка при создании документа!'))
+            .catch(() => setError('Не удалось создать акт перецепа'))
             .finally(() => setIsLoading(false))
     }
 

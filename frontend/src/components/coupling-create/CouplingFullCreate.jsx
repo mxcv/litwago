@@ -1,21 +1,21 @@
-import { Box, Container, Button, Tabs, Tab, Backdrop, CircularProgress } from "@mui/material"
+import { Box, Container, Button, Tabs, Tab } from "@mui/material"
 import { useState, useRef, useEffect } from "react"
 import { useNavigate } from 'react-router-dom';
-import axios from '../axios.jsx'
-import General from "./coupling-create/General"
-import Equipment from "./coupling-create/Equipment"
-import Documents from "./coupling-create/Documents"
-import FuelRefrigerator from "./coupling-create/FuelRefrigerator";
-import TireDamages from "./coupling-create/TireDamages"
-import TruckDamages from "./coupling-create/TruckDamages"
-import Drivers from "./coupling-create/Drivers";
+import axios from '../../axios.jsx'
+import General from "./General.jsx"
+import Equipment from "./Equipment.jsx"
+import Documents from "./Documents.jsx"
+import FuelRefrigerator from "./FuelRefrigerator.jsx";
+import TireDamages from "./TireDamages.jsx"
+import TruckDamages from "./TruckDamages.jsx"
+import Drivers from "./Drivers.jsx";
 
 function TabPanel({value, index, children}) {
     if (value === index)
         return (children);
 }
 
-function CouplingFullCreate({lastCoupling, driverType, setIsLoading}) {
+function CouplingFullCreate({lastCoupling, driverType, setIsLoading, setError}) {
     const tabCount = 7
     const navigate = useNavigate();
     const isMount = useRef(true);
@@ -62,7 +62,7 @@ function CouplingFullCreate({lastCoupling, driverType, setIsLoading}) {
             .then(() => {
                 navigate('/');
             })
-            .catch(() => alert('Возникла ошибка при создании документа!'))
+            .catch(() => setError('Не удалось создать акт перецепа'))
             .finally(() => setIsLoading(false))
     }
 

@@ -11,18 +11,16 @@ import Container from '@mui/material/Container';
 import {Link as RouterLink, useNavigate} from "react-router-dom";
 import {useState} from "react";
 import axios from "../axios.jsx";
-import {Alert, Snackbar} from "@mui/material";
 
-function Register({setUser, setIsLoading}) {
+function Register({setUser, setIsLoading, setError}) {
     const navigate = useNavigate();
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const [error, setError] = useState(false)
 
-    const handleSubmit = (event) => {
-        event.preventDefault()
+    function handleSubmit(e) {
+        e.preventDefault()
         setIsLoading(true)
         axios.post('/account/register', {
                 firstName: firstName,
@@ -34,10 +32,8 @@ function Register({setUser, setIsLoading}) {
                 setUser(response.data)
                 navigate('/')
             })
-            .catch((e) => {
-                setError(true)
-                console.log(e)
-            })
+            .catch(() => setError('Не удалось зарегистрировать пользователя. Проверьте правильность внесеных даных.' +
+                ' Возможно, данный email уже зарегистрирован.'))
             .finally(() => setIsLoading(false))
     }
 
@@ -100,16 +96,6 @@ function Register({setUser, setIsLoading}) {
                     </Grid>
                 </Box>
             </Box>
-            <Snackbar
-                open={error}
-                onClose={() => setError(false)}
-                autoHideDuration={5000}
-                anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}>
-                <Alert severity="error" sx={{ width: '100%' }}>
-                    Не удалось зарегистрировать пользователя. Проверьте правильность внесеных даных.
-                    Возможно, данный email уже зарегистрирован.
-                </Alert>
-            </Snackbar>
         </Container>
     )
 }

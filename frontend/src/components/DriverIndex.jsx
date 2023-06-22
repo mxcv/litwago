@@ -4,7 +4,7 @@ import {Link} from "react-router-dom";
 import {useEffect, useState} from "react";
 import axios from "../axios.jsx";
 
-function DriverIndex({setIsLoading}) {
+function DriverIndex({setIsLoading, setError}) {
     const pageSize = 5
     const [page, setPage] = useState(1)
     const [pageCount, setPageCount] = useState(0)
@@ -28,27 +28,24 @@ function DriverIndex({setIsLoading}) {
                 setPageCount(Math.ceil(r.data.total / pageSize))
                 setCouplings(r.data.list)
             })
+            .catch(() => setError('Не удалось загрузить перецепы'))
             .finally(() => setIsLoading(false))
-    }
-
-    function downloadFile(data, filename) {
-        const href = URL.createObjectURL(data);
-        const link = document.createElement('a');
-        link.href = href;
-        link.setAttribute('download', filename);
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        URL.revokeObjectURL(href);
     }
 
     function createReport(id, trailerNumber) {
         setIsLoading(true)
         axios.get('/couplings/' + id, {responseType: 'blob'})
             .then((response) => {
-                downloadFile(response.data, trailerNumber + '.pdf')
+                const href = URL.createObjectURL(response.data);
+                const link = document.createElement('a');
+                link.href = href;
+                link.setAttribute('download', trailerNumber + '.pdf');
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(href);
             })
-            .catch(() => alert('Возникла ошибка при создании документа!'))
+            .catch(() => setError('Не удалось создать документ'))
             .finally(() => setIsLoading(false))
     }
 

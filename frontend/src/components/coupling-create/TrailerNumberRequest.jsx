@@ -1,12 +1,10 @@
-import {Box, Button, Container} from "@mui/material"
-import TextField from "@mui/material/TextField";
 import * as React from "react";
 import {useState} from "react";
-import axios from "../axios.jsx";
+import {Box, Button, Container, TextField} from "@mui/material"
+import axios from "../../axios.jsx";
 
-function TrailerNumberRequest({setLastCoupling}) {
+function TrailerNumberRequest({setLastCoupling, setIsLoading, setError}) {
     const [number, setNumber] = useState('')
-    const [isLoading, setIsLoading] = useState(false)
 
     function handleSubmit(e) {
         e.preventDefault()
@@ -16,12 +14,14 @@ function TrailerNumberRequest({setLastCoupling}) {
                     trailerNumber: number
                 }
             })
-            .then(r => {
-                setLastCoupling(r.data)
+            .then(r => setLastCoupling(r.data))
+            .catch(error => {
+                if (error.response?.status === 404)
+                    setLastCoupling(number)
+                else
+                    setError('Возникла ошибка при поиске прицепа')
             })
-            .catch(() => {
-                setLastCoupling(number)
-            })
+            .finally(() => setIsLoading(false))
     }
 
     return (
@@ -36,7 +36,7 @@ function TrailerNumberRequest({setLastCoupling}) {
                     label="Номер прицепа"
                     value={number}
                     onChange={e => setNumber(e.target.value)} />
-                <Button type="submit" fullWidth variant="contained" sx={{ mt: 3 }} disabled={isLoading}>Найти</Button>
+                <Button type="submit" fullWidth variant="contained" sx={{ mt: 3 }}>Найти</Button>
             </Box>
         </Container>
     )

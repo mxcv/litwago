@@ -11,16 +11,14 @@ import Link from "@mui/material/Link";
 import {Link as RouterLink, useNavigate} from "react-router-dom";
 import axios from "../axios.jsx";
 import {useState} from "react";
-import {Alert, Snackbar} from "@mui/material";
 
-function Login({setUser, setIsLoading}) {
+function Login({setUser, setIsLoading, setError}) {
     const navigate = useNavigate();
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const [error, setError] = useState(false)
 
-    const handleSubmit = (event) => {
-        event.preventDefault()
+    function handleSubmit(e) {
+        e.preventDefault()
         setIsLoading(true)
         axios.post('/account/login', {
                 email: email,
@@ -30,7 +28,7 @@ function Login({setUser, setIsLoading}) {
                 setUser(response.data)
                 navigate('/')
             })
-            .catch(() => setError(true))
+            .catch(() => setError('Почта или пароль указаны неверно!'))
             .finally(() => setIsLoading(false))
     }
 
@@ -48,7 +46,6 @@ function Login({setUser, setIsLoading}) {
                         fullWidth
                         label="Email"
                         autoComplete="email"
-                        error={error}
                         value={email}
                         onChange={e => setEmail(e.target.value)} />
                     <TextField
@@ -58,7 +55,6 @@ function Login({setUser, setIsLoading}) {
                         label="Пароль"
                         type="password"
                         autoComplete="password"
-                        error={error}
                         value={password}
                         onChange={e => setPassword(e.target.value)} />
                     <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>Войти</Button>
@@ -71,15 +67,6 @@ function Login({setUser, setIsLoading}) {
                     </Grid>
                 </Box>
             </Box>
-            <Snackbar
-                open={error}
-                onClose={() => setError(false)}
-                autoHideDuration={5000}
-                anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}>
-                <Alert severity="error" sx={{ width: '100%' }}>
-                    Почта или пароль указаны неверно!
-                </Alert>
-            </Snackbar>
         </Container>
     )
 }

@@ -2,16 +2,17 @@ package com.litwago.controllers;
 
 import com.litwago.converters.Converter;
 import com.litwago.dto.Coupling;
+import com.litwago.dto.out.PageResponse;
 import com.litwago.services.CouplingService;
 import com.litwago.services.ReportService;
 import com.litwago.utils.CleanupFileSystemResource;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
@@ -45,18 +46,22 @@ public class CouplingController {
     }
 
     @GetMapping("/my")
-    public List<Coupling> get() {
-        return couplingService.getDriverCouplings()
-            .stream()
+    public PageResponse<Coupling> get(@RequestParam int page, @RequestParam int size) {
+        Page<com.litwago.models.Coupling> p = couplingService.getDriverCouplings(page, size);
+        return new PageResponse<>((int)p.getTotalElements(), p.stream()
             .map(modelToDtoConverter::convert)
-            .collect(Collectors.toList());
+            .collect(Collectors.toList()));
     }
 
     @GetMapping
-    public List<Coupling> getByTrailerNumber(@RequestParam String trailerNumber, @RequestParam boolean withoutChange) {
-        return couplingService.getByTrailerNumber(trailerNumber, withoutChange)
-            .stream()
+    public PageResponse<Coupling> getByTrailerNumber(@RequestParam String trailerNumber,
+                                                     @RequestParam boolean withoutChange,
+                                                     @RequestParam int page,
+                                                     @RequestParam int size) {
+        Page<com.litwago.models.Coupling> p = couplingService
+            .getByTrailerNumber(trailerNumber, withoutChange, page, size);
+        return new PageResponse<>((int)p.getTotalElements(), p.stream()
             .map(modelToDtoConverter::convert)
-            .collect(Collectors.toList());
+            .collect(Collectors.toList()));
     }
 }

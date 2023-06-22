@@ -3,65 +3,71 @@ import {
   Box,
   Button, Checkbox, CircularProgress,
   Container, FormControlLabel, FormGroup,
-  IconButton,
+  IconButton, Pagination,
   Paper,
   Table,
   TableBody,
   TableCell, TableContainer,
   TableHead,
-  TableRow
+  TableRow, Typography
 } from "@mui/material"
 import TextField from "@mui/material/TextField";
 import * as React from "react";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import axios from "../axios.jsx";
 import DescriptionIcon from "@mui/icons-material/Description.js";
 
 function MechanicIndex() {
+  const pageSize = 2
+  const [page, setPage] = useState(0)
+  const [pageCount, setPageCount] = useState(0)
   const [trailerNumber, setTrailerNumber] = useState('')
   const [withoutChange, setWithoutChange] = useState(false)
   const [couplings, setCouplings] = useState()
+  const [couplingCount, setCouplingCount] = useState()
   const [isLoading, setIsLoading] = useState(false)
 
-  function handleSubmit(e) {
-    e.preventDefault()
+  useEffect(() => page ? loadCouplings(page) : undefined, [page])
+
+  function loadCouplings(page) {
     setIsLoading(true)
+    window.scrollTo(0, 0)
     axios.get('/couplings', {
         params: {
           trailerNumber: trailerNumber,
-          withoutChange: withoutChange
+          withoutChange: withoutChange,
+          page: page - 1,
+          size: pageSize
         }
       })
       .then(r => {
-        setCouplings(r.data)
+        setCouplingCount(r.data.total)
+        setPageCount(Math.ceil(r.data.total / pageSize))
+        setCouplings(r.data.list)
       })
       .finally(() => setIsLoading(false))
-  }
-
-  function downloadFile(data, filename) {
-    const href = URL.createObjectURL(data);
-    const link = document.createElement('a');
-    link.href = href;
-    link.setAttribute('download', filename);
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(href);
   }
 
   function createReport(id, trailerNumber) {
     setIsLoading(true)
     axios.get('/couplings/' + id, {responseType: 'blob'})
         .then((response) => {
-          downloadFile(response.data, trailerNumber + '.pdf')
+          const href = URL.createObjectURL(response.data);
+          const link = document.createElement('a');
+          link.href = href;
+          link.setAttribute('download', trailerNumber + '.pdf');
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          URL.revokeObjectURL(href);
         })
         .catch(() => alert('Возникла ошибка при создании документа!'))
         .finally(() => setIsLoading(false))
   }
 
   return (
-      <Container maxWidth="md" sx={{display: 'flex', flexDirection: 'column', mt: 3}}>
-        <Box component="form" onSubmit={handleSubmit}>
+      <Container maxWidth="md" sx={{display: 'flex', flexDirection: 'column', py: 2}}>
+        <Box component="form" onSubmit={e => {e.preventDefault(); page === 1 ? loadCouplings(1) : setPage(1)}}>
           <Box sx={{display: 'flex'}}>
             <TextField
                 flex={1}
@@ -81,6 +87,13 @@ function MechanicIndex() {
                                                  onChange={e => setWithoutChange(e.target.checked)} />} />
           </FormGroup>
         </Box>
+        {
+            couplings && (
+                <Typography variant='h5'>
+                  Перецепов: {couplingCount}
+                </Typography>
+            )
+        }
         {
             couplings && (
               <TableContainer component={Paper} sx={{mt: 2}}>
@@ -112,6 +125,17 @@ function MechanicIndex() {
                   </TableBody>
                 </Table>
               </TableContainer>
+            )
+        }
+        {
+            pageCount !== 0 && (
+                <Box sx={{mt: 2, display: 'flex', justifyContent: 'center'}}>
+                  <Pagination variant="outlined"
+                              color="primary"
+                              count={pageCount}
+                              page={page}
+                              onChange={(e, v) => setPage(v)} />
+                </Box>
             )
         }
         <Backdrop open={isLoading} sx={{color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1}}>

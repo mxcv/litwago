@@ -1,31 +1,34 @@
-import {
-    Backdrop,
-    Box,
-    Button, CircularProgress,
-    Container, IconButton,
-    Paper,
-    Stack,
-    Table, TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow, Typography
-} from "@mui/material"
+import {Backdrop, Box, Button, CircularProgress, Container, IconButton, Pagination, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography} from "@mui/material"
 import DescriptionIcon from '@mui/icons-material/Description';
 import {Link} from "react-router-dom";
 import {useEffect, useState} from "react";
 import axios from "../axios.jsx";
 
 function DriverIndex() {
+    const pageSize = 5
+    const [page, setPage] = useState(1)
+    const [pageCount, setPageCount] = useState(0)
     const [couplings, setCouplings] = useState()
+    const [couplingCount, setCouplingCount] = useState()
     const [isLoading, setIsLoading] = useState(false)
     let userId = JSON.parse(localStorage.getItem('user')).id
 
-    useEffect(() => {
-        axios.get('/couplings/my')
-            .then(r => setCouplings(r.data))
-            .catch(r => console.log(r))
-    }, [])
+    useEffect(() => loadCouplings(page), [page])
+
+    function loadCouplings(page) {
+        window.scrollTo(0, 0)
+        axios.get('/couplings/my', {
+                params: {
+                    page: page - 1,
+                    size: pageSize
+                }
+            })
+            .then(r => {
+                setCouplingCount(r.data.total)
+                setPageCount(Math.ceil(r.data.total / pageSize))
+                setCouplings(r.data.list)
+            })
+    }
 
     function downloadFile(data, filename) {
         const href = URL.createObjectURL(data);
@@ -50,12 +53,12 @@ function DriverIndex() {
 
     return (
         <Container maxWidth='md'
-                   sx={{pt: 2, display: 'flex', flexDirection: 'column'}}>
+                   sx={{py: 2, display: 'flex', flexDirection: 'column'}}>
             <Button component={Link} to="/couplings/create" variant='contained' sx={{mb: 2}}>Оформить перецеп</Button>
             {
                 couplings && (
                     <Typography variant='h5'>
-                        Перецепов: {couplings.length}
+                        Перецепов: {couplingCount}
                     </Typography>
                 )
             }
@@ -87,6 +90,17 @@ function DriverIndex() {
                     </TableBody>
                 </Table>
             </TableContainer>
+            {
+                pageCount !== 0 && (
+                    <Box sx={{mt: 2, display: 'flex', justifyContent: 'center'}}>
+                        <Pagination variant="outlined"
+                                    color="primary"
+                                    count={pageCount}
+                                    page={page}
+                                    onChange={(e, v) => setPage(v)} />
+                    </Box>
+                )
+            }
             <Backdrop open={isLoading} sx={{color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1}}>
                 <CircularProgress color="inherit" />
             </Backdrop>

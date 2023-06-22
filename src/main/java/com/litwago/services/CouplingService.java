@@ -1,5 +1,6 @@
 package com.litwago.services;
 
+import com.litwago.dto.out.PageResponse;
 import com.litwago.exceptions.BadRequestException;
 import com.litwago.exceptions.NotFoundException;
 import com.litwago.models.Coupling;
@@ -7,6 +8,9 @@ import com.litwago.models.Role;
 import com.litwago.models.User;
 import com.litwago.repositories.CouplingRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -30,10 +34,11 @@ public class CouplingService {
         repository.save(coupling);
     }
 
-    public List<Coupling> getByTrailerNumber(String trailerNumber, boolean withoutChange) {
+    public Page<Coupling> getByTrailerNumber(String trailerNumber, boolean withoutChange, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
         return withoutChange
-            ? repository.findByTrailerNumberAndTrailerChangeNullOrderByDateDesc(trailerNumber)
-            : repository.findByTrailerNumberOrderByDateDesc(trailerNumber);
+            ? repository.findByTrailerNumberAndTrailerChangeNullOrderByDateDesc(trailerNumber, pageable)
+            : repository.findByTrailerNumberOrderByDateDesc(trailerNumber, pageable);
     }
 
     public Coupling getLastFullCoupling(String trailerNumber) {
@@ -41,9 +46,12 @@ public class CouplingService {
             .orElseThrow(NotFoundException::new);
     }
 
-    public List<Coupling> getDriverCouplings() {
+    public Page<Coupling> getDriverCouplings(int page, int size) {
         int userId = ((User)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
-        return repository.findByOldDriverIdOrNewDriverIdOrderByDateDesc(userId, userId);
+        return repository.findByOldDriverIdOrNewDriverIdOrderByDateDesc(
+            userId,
+            userId,
+            PageRequest.of(page, size));
     }
 
     public Coupling getFullCoupling(int id) {

@@ -12,11 +12,12 @@ public class Coupling {
     String trailerNumber;
     String location;
     String date;
+    boolean hasSeal;
     FuelRefrigerator fuelRefrigerator;
     Equipment equipment;
     Documents documents;
     TireDamages tireDamages;
     TruckDamages truckDamages;
     Driver oldDriver;
-    NewDriver newDriver;
+    Driver newDriver;
 }

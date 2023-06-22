@@ -1,10 +1,10 @@
 package com.litwago.viewmodels;
 
+import lombok.Builder;
 import lombok.Data;
-import lombok.experimental.SuperBuilder;
 
 @Data
-@SuperBuilder
+@Builder
 public class Driver {
 
     String firstName;

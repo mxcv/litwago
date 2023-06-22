@@ -12,9 +12,10 @@ function General({general, setGeneral, tab, setTab, setIsLoading, driverType}) {
 
 	useEffect(() => {
 		setGeneral({
+			trailerNumber: trailerNumber,
 			oldTruckNumber: oldTruckNumber === '' ? null : oldTruckNumber,
 			newTruckNumber: newTruckNumber === '' ? null : newTruckNumber,
-			trailerNumber: trailerNumber,
+			hasSeal: hasSeal,
 			location: location,
 			autoLocation: autoLocation
 		})

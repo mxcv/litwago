@@ -23,6 +23,7 @@ public class CouplingViewModelConverter implements Converter<com.litwago.models.
             .trailerNumber(c.getTrailerNumber())
             .location(c.getCountryCode().toUpperCase() + ", " + c.getPostalCode())
             .date(c.getDate().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")))
+            .hasSeal(c.isHasSeal())
             .fuelRefrigerator(c.getTrailerChange().getFuelRefrigerator() == null ? new FuelRefrigerator() : FuelRefrigerator.builder()
                 .liters(c.getTrailerChange().getFuelRefrigerator().getLiters())
                 .motoHours(c.getTrailerChange().getFuelRefrigerator().getMotoHours())
@@ -97,14 +98,13 @@ public class CouplingViewModelConverter implements Converter<com.litwago.models.
                     .signature(Base64.getDecoder().decode(c.getOldDriverSignature()))
                     .build())
             .newDriver(c.getNewDriver() == null
-                ? NewDriver.builder()
+                ? Driver.builder()
                     .signature(Base64.getDecoder().decode(EMPTY_IMAGE))
                     .build()
-                : NewDriver.builder()
+                : Driver.builder()
                     .firstName(c.getNewDriver().getFirstName())
                     .lastName(c.getNewDriver().getLastName())
                     .signature(Base64.getDecoder().decode(c.getNewDriverSignature()))
-                    .hasSeal(c.isHasSeal())
                     .build())
             .build();
     }
